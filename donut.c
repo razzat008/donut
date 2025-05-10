@@ -13,10 +13,10 @@
 
 const int screen_width = 80;  // more like the space where the donut will render
 const int screen_height = 80; // so dimension for the donut to render
-const float r1 = 1;           // the radius of the cross-section-area
-const float r2 = 2;           // the radius of the inner circle
-const float k2 = 5; // the distance of the donut from the observer (used to//
-                    // change the depth, flatness of the donut)
+const float r1 = 1.0;         // the radius of the cross-section-area
+const float r2 = 2.0;         // the radius of the inner circle
+const float k2 = 60; // the distance of the donut from the observer (used to//
+                     // change the depth, flatness of the donut)
 const float k1 = screen_width * k2 * 3 / (8 * (r1 + r2)); //
 const float two_pi = 6.28;
 const float theta_spacing = 0.07; // how the theta angle is incremented (how
@@ -65,10 +65,10 @@ int main(int argc, char *argv[]) {
                                  // of the torus)
         float circle_y = r1 * sin_theta;
         // from our formula obtained by the multiplication with rotation matrix
-        float x = circle_x * (cosB * cos_phi + sinA * sinB * sin_phi) -
+        float x = 1 + circle_x * (cosB * cos_phi + sinA * sinB * sin_phi) -
                   circle_y * cosA * sinB;
         // same as above
-        float y = circle_x * (sinB * cos_phi - sinA * cosB * sin_phi) +
+        float y = 0.5 + circle_x * (sinB * cos_phi - sinA * cosB * sin_phi) +
                   circle_y * cosA * cosB;
         // the depth
         // this z is calculated by adding k2 which helps in 'offsetting' the
@@ -84,7 +84,7 @@ int main(int argc, char *argv[]) {
                   k1 * ooz *
                       x); // from the perspective projection formula and the
                           // screen_width/2 helps in centering the donut
-        int yp = (int)(screen_height / 2 + k1 * ooz * y);
+        int yp = (int)(screen_height / 2 + 2 + k1 * ooz * y);
 
         // multiplying the surface normal with the <0,1,-1>(the direction of the
         // source of light) (i.e behind and above the observer)
@@ -111,6 +111,7 @@ int main(int argc, char *argv[]) {
       }
       putchar('\n');
     }
+    // update the rotating angle for the x and z axis respectively
     A += 0.04;
     B += 0.02;
     usleep(30000);
