@@ -5,8 +5,7 @@ Well, it looks cool so yeah.
 # Usage
 
 ```bash
-gcc -o donut donut.c
-./donut
+gcc -o donut.out donut.c -lm && ./donut.out
 ```
 
 # How?
